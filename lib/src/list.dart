@@ -43,22 +43,19 @@ extension ListExtension<E> on List<E>? {
     if (this!.length != other.length) return false;
     bool equal = true;
     for (int i = 0; i < this!.length; i++) {
-      if (this!.elementAt(i) is List &&
-          other.elementAt(i).runtimeType == this!.elementAt(i).runtimeType) {
+      if (this!.elementAt(i).runtimeType != other.elementAt(i).runtimeType) {
+        equal = false;
+        break;
+      } else if (this!.elementAt(i) is List) {
         if (!(this!.elementAt(i) as List).equalTo(other.elementAt(i) as List)) {
           equal = false;
           break;
         }
-      } else if (this!.elementAt(i) is Map &&
-          other.elementAt(i).runtimeType == this!.elementAt(i).runtimeType) {
+      } else if (this!.elementAt(i) is Map) {
         if (!(this!.elementAt(i) as Map).equalTo(other.elementAt(i) as Map)) {
           equal = false;
           break;
         }
-      } else if (this!.elementAt(i).runtimeType !=
-          other.elementAt(i).runtimeType) {
-        equal = false;
-        break;
       } else {
         if (this!.elementAt(i) != other.elementAt(i)) {
           equal = false;

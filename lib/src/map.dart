@@ -34,21 +34,19 @@ extension MapExtension<K, V> on Map<K, V>? {
       }
       //对比值
       else {
-        if (entry.value is Map &&
-            other[entry.key].runtimeType == entry.value.runtimeType) {
+        if (entry.value.runtimeType != other[entry.key].runtimeType) {
+          equal = false;
+          break;
+        } else if (entry.value is Map) {
           if (!(entry.value as Map).equalTo(other[entry.key] as Map)) {
             equal = false;
             break;
           }
-        } else if (entry.value is List &&
-            other[entry.key].runtimeType == entry.value.runtimeType) {
+        } else if (entry.value is List) {
           if (!(entry.value as List).equalTo(other[entry.key] as List)) {
             equal = false;
             break;
           }
-        } else if (entry.value.runtimeType != other[entry.key].runtimeType) {
-          equal = false;
-          break;
         } else {
           if (entry.value != other[entry.key]) {
             equal = false;
