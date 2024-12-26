@@ -54,4 +54,25 @@ extension NumExtension on num? {
   String? get tryToIntString {
     return tryToInt?.toString();
   }
+
+  String? addThousandSeparator() {
+    if (this == null) return null;
+    String _value = toString();
+    int start = _value.indexOf('.');
+    List<String> str = [];
+    if (start > -1) {
+      str.add(_value.substring(start));
+    } else {
+      start = _value.length;
+    }
+    while (start > 0) {
+      if (start - 3 > 0) {
+        str.add(_value.substring(start - 3, start));
+      } else {
+        str.add(_value.substring(0, start));
+      }
+      start -= 3;
+    }
+    return str.reversed.join(',').replaceAll(',.', '.');
+  }
 }
