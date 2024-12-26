@@ -33,8 +33,7 @@ extension NumExtension on num? {
     if (this == null) return null;
     if (this is double &&
         !this!.isNaN &&
-        !this!.isInfinite &&
-        !this!.isNegative) {
+        !this!.isInfinite) {
       var result = (this! * pow(10, n)).round() / pow(10, n);
       return result.round() == result ? result.round() : result;
     } else if (this is int) {
