@@ -31,9 +31,7 @@ extension NumExtension on num? {
   //保留小数点后n位，int原样返回，小数点后为0则取整
   num? decimal(int n) {
     if (this == null) return null;
-    if (this is double &&
-        !this!.isNaN &&
-        !this!.isInfinite) {
+    if (this is double && !this!.isNaN && !this!.isInfinite) {
       var result = (this! * pow(10, n)).round() / pow(10, n);
       return result.round() == result ? result.round() : result;
     } else if (this is int) {
@@ -54,9 +52,9 @@ extension NumExtension on num? {
     return tryToInt?.toString();
   }
 
-  String? addThousandSeparator() {
+  String? toMoney() {
     if (this == null) return null;
-    String _value = toString();
+    String _value = this!.toStringAsFixed(2);
     int start = _value.indexOf('.');
     List<String> str = [];
     if (start > -1) {
