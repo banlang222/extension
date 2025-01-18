@@ -38,15 +38,11 @@ extension ListExtension<E> on List<E>? {
   }
 
   bool equalTo(List<E>? other) {
-    if (runtimeType != other.runtimeType) return false;
     if (this == null || other == null) return false;
     if (this!.length != other.length) return false;
     bool equal = true;
     for (int i = 0; i < this!.length; i++) {
-      if (this!.elementAt(i).runtimeType != other.elementAt(i).runtimeType) {
-        equal = false;
-        break;
-      } else if (this!.elementAt(i) is List) {
+      if (this!.elementAt(i) is List) {
         if (!(this!.elementAt(i) as List).equalTo(other.elementAt(i) as List)) {
           equal = false;
           break;

@@ -22,7 +22,6 @@ extension MapExtension<K, V> on Map<K, V>? {
   }
 
   bool equalTo(Map<K, V>? other) {
-    if (runtimeType != other.runtimeType) return false;
     if (this == null || other == null) return false;
     if (this!.length != other.length) return false;
     var equal = true;
@@ -34,10 +33,7 @@ extension MapExtension<K, V> on Map<K, V>? {
       }
       //对比值
       else {
-        if (entry.value.runtimeType != other[entry.key].runtimeType) {
-          equal = false;
-          break;
-        } else if (entry.value is Map) {
+        if (entry.value is Map) {
           if (!(entry.value as Map).equalTo(other[entry.key] as Map)) {
             equal = false;
             break;
