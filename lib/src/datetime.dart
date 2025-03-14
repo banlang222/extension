@@ -11,10 +11,13 @@ extension DateTimeExtension on DateTime? {
     }
     return '${this!.year.toFourDigits}-${this!.month.toTwoDigits}-${this!.day.toTwoDigits} ${this!.hour.toTwoDigits}:${this!.minute.toTwoDigits}:${this!.second.toTwoDigits}';
   }
+
+  ///年：YYYY/YY 月：MM/eMM 日：DD 时：hh 分：mm 秒：ss
   String? toDateString({String format = 'YYYY-MM-DD'}) {
     if(isNull) return null;
     format = format.replaceAll('YYYY', this!.year.toFourDigits!);
     format = format.replaceAll('YY', this!.year.toFourDigits!.substring(2,4));
+    format = format.replaceAll('eMM', ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].elementAt(this!.month - 1));
     format = format.replaceAll('MM', this!.month.toTwoDigits!);
     format = format.replaceAll('DD', this!.day.toTwoDigits!);
     format = format.replaceAll('hh', this!.hour.toTwoDigits!);

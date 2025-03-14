@@ -72,4 +72,74 @@ extension NumExtension on num? {
     }
     return str.reversed.join(',').replaceAll(',.', '.');
   }
+
+  String toChineseMoney() {
+    if(this == null) return '零';
+    const List<String> chineseDigits = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+    const List<String> chineseUnits = ['', '拾', '佰', '仟'];
+    const List<String> chineseBigUnits = ['', '万', '亿'];
+
+    String amountStr = this!.toStringAsFixed(2); // 保留两位小数
+    List<String> parts = amountStr.split('.');
+    String integerPart = parts[0];
+    String decimalPart = parts.length > 1 ? parts[1] : '';
+
+    String result = '';
+
+    // 处理整数部分
+    int length = integerPart.length;
+    for (int i = 0; i < length; i++) {
+      int digit = int.parse(integerPart[i]);
+      int unitIndex = (length - i - 1) % 4;
+      int bigUnitIndex = (length - i - 1) ~/ 4;
+
+      if (digit != 0) {
+        result += chineseDigits[digit] + chineseUnits[unitIndex];
+      } else {
+        // 处理连续的零
+        if (result.isNotEmpty && !result.endsWith('零')) {
+          result += '零';
+        }
+      }
+
+      // 添加大单位（万、亿）
+      if (unitIndex == 0 && bigUnitIndex > 0) {
+        result += chineseBigUnits[bigUnitIndex];
+      }
+    }
+
+
+    if(result.isNotEmpty){
+      // 处理末尾的零
+      result = result.replaceAll(RegExp(r'零+$'), '');
+      result = result.replaceAll(RegExp(r'零+'), '零');
+      result += '元';
+    }
+
+
+    // 处理小数部分（角和分）
+    if (decimalPart.isNotEmpty) {
+      int jiao = int.parse(decimalPart[0]); // 角
+      int fen = decimalPart.length > 1 ? int.parse(decimalPart[1]) : 0; // 分
+
+      if (jiao != 0) {
+        result += chineseDigits[jiao] + '角';
+      }
+      if (fen != 0) {
+        result += (jiao == 0 ? '零' : '') + chineseDigits[fen] + '分';
+      }
+
+      // 如果没有小数部分，添加“整”
+      if (jiao == 0 && fen == 0) {
+        result += '整';
+      }
+    } else {
+      result += '整';
+    }
+
+
+
+    return result.isEmpty ? '零元整' : result;
+  }
+
 }
