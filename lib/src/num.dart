@@ -70,12 +70,23 @@ extension NumExtension on num? {
       }
       start -= 3;
     }
-    return str.reversed.join(',').replaceAll(',.', '.');
+    return str.reversed.join(',').replaceAll(',.', '.').replaceAll('-,', '-');
   }
 
   String toChineseMoney() {
-    if(this == null) return '零';
-    const List<String> chineseDigits = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+    if (this == null) return '零';
+    const List<String> chineseDigits = [
+      '零',
+      '壹',
+      '贰',
+      '叁',
+      '肆',
+      '伍',
+      '陆',
+      '柒',
+      '捌',
+      '玖'
+    ];
     const List<String> chineseUnits = ['', '拾', '佰', '仟'];
     const List<String> chineseBigUnits = ['', '万', '亿'];
 
@@ -108,14 +119,12 @@ extension NumExtension on num? {
       }
     }
 
-
-    if(result.isNotEmpty){
+    if (result.isNotEmpty) {
       // 处理末尾的零
       result = result.replaceAll(RegExp(r'零+$'), '');
       result = result.replaceAll(RegExp(r'零+'), '零');
       result += '元';
     }
-
 
     // 处理小数部分（角和分）
     if (decimalPart.isNotEmpty) {
@@ -137,9 +146,6 @@ extension NumExtension on num? {
       result += '整';
     }
 
-
-
     return result.isEmpty ? '零元整' : result;
   }
-
 }
